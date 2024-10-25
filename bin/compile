@@ -60,9 +60,18 @@ main() {
     bin_dir="${layer_dir}/bin"
     mkdir --parent "${bin_dir}"
     
-    # Extract the caddy binary from the subdirectory
-    tar --extract --xz --file "${download_path}" --strip-components=1 "caddy-forwardproxy-naive/caddy" -C "${bin_dir}"
-    chmod ugo=rx "${bin_dir}/caddy"
+    # Extract the entire archive first
+    tar --extract --xz --file "${download_path}" -C "${bin_dir}"
+
+    # Verify the caddy binary exists and move it to the desired location
+    if [ -f "${bin_dir}/caddy-forwardproxy-naive/caddy" ]; then
+        mv "${bin_dir}/caddy-forwardproxy-naive/caddy" "${bin_dir}/caddy"
+        chmod ugo=rx "${bin_dir}/caddy"
+        rm -rf "${bin_dir}/caddy-forwardproxy-naive"
+    else
+        echo "Error: Caddy binary not found after extraction."
+        exit 1
+    fi
 
     step "Installing profile.d script"
     local profile_dir="${BUILD_DIR}/.profile.d"
