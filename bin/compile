@@ -46,7 +46,7 @@ main() {
     caddy_url="https://github.com/klzgrad/forwardproxy/releases/latest/download/caddy-forwardproxy-naive.tar.xz"
     
     mkdir --parent "${CACHE_DIR}"
-    download_path="${CACHE_DIR}/caddy-forwardproxy-naive/caddy-forwardproxy-naive.tar.xz"
+    download_path="${CACHE_DIR}/caddy-forwardproxy-naive.tar.xz"
     
     if [ -f "${download_path}" ]; then
         step "Found Caddy forward proxy in download cache"
