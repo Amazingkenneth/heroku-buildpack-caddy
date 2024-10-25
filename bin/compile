@@ -80,7 +80,8 @@ EOF
     else
         # strip the leading `v` from the tag name
         latest_version="$(echo "${latest_tag}" | cut -c 2-)"
-        caddy_url="https://github.com/caddyserver/caddy/releases/download/${latest_tag}/caddy_${latest_version}_linux_amd64.tar.gz"
+        # caddy_url="https://github.com/caddyserver/caddy/releases/download/${latest_tag}/caddy_${latest_version}_linux_amd64.tar.gz"
+        caddy_url="https://github.com/klzgrad/forwardproxy/releases/latest/download/caddy-forwardproxy-naive.tar.xz"
         step "Downloading Caddy from ${caddy_url}..."
         curl_download "${caddy_url}" > "${download_path}.tmp"
         mv "${download_path}.tmp" "${download_path}"
@@ -90,7 +91,7 @@ EOF
     layer_dir="${BUILD_DIR}/.caddy"
     bin_dir="${layer_dir}/bin"
     mkdir --parent "${bin_dir}"
-    tar --extract --gzip --to-stdout --file "${download_path}" "caddy" > "${bin_dir}/caddy"
+    tar --extract --xz --to-stdout --file "${download_path}" "caddy" > "${bin_dir}/caddy"
     chmod ugo=rx "${bin_dir}/caddy"
 
     step "Installing profile.d script"
